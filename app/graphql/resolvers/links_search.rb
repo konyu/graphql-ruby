@@ -1,5 +1,4 @@
 require 'search_object/plugin/graphql'
-require 'graphql/query_resolver'
 
 class Resolvers::LinksSearch < GraphQL::Schema::Resolver
   include SearchObject.module(:graphql)
@@ -55,14 +54,5 @@ class Resolvers::LinksSearch < GraphQL::Schema::Resolver
 
   def apply_order_by_with_created_at_desc(scope)
     scope.order('created_at DESC')
-  end
-
-  def fetch_results
-    # NOTE: Don't run QueryResolver during tests
-    return super unless context.present?
-
-    GraphQL::QueryResolver.run(Link, context, Types::LinkType) do
-      super
-    end
   end
 end

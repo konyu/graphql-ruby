@@ -16,7 +16,6 @@ gem 'sqlite3'
 gem 'validate_url'
 
 gem 'graphql'
-gem 'graphql-query-resolver'
 gem 'graphql-batch'
 gem 'search_object'
 gem 'search_object_graphql'
