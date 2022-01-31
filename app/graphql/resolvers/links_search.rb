@@ -5,7 +5,7 @@ class Resolvers::LinksSearch < GraphQL::Schema::Resolver
 
   scope { Link.all }
 
-  type [Types::LinkType]
+  type Types::LinkType.connection_type
 
   class LinkFilter < ::Types::BaseInputObject
     argument :OR, [self], required: false
@@ -19,8 +19,6 @@ class Resolvers::LinksSearch < GraphQL::Schema::Resolver
   end
 
   option :filter, type: LinkFilter, with: :apply_filter
-  option :first, type: types.Int, with: :apply_first
-  option :skip, type: types.Int, with: :apply_skip
   option :orderBy, type: LinkOrderBy, default: 'createdAt_DESC'
 
   def apply_filter(scope, value)
@@ -38,14 +36,6 @@ class Resolvers::LinksSearch < GraphQL::Schema::Resolver
     value[:OR].reduce(branches) { |s, v| normalize_filters(v, s) } if value[:OR].present?
 
     branches
-  end
-
-  def apply_first(scope, value)
-    scope.limit(value)
-  end
-
-  def apply_skip(scope, value)
-    scope.offset(value)
   end
 
   def apply_order_by_with_created_at_asc(scope)
