@@ -1,4 +1,6 @@
 class GraphqlController < ApplicationController
+  skip_before_action :verify_authenticity_token
+
   def execute
     result = GraphqlTutorialSchema.execute(query, variables: variables, context: context, operation_name: operation_name)
     render json: result
